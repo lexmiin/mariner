@@ -18,11 +18,6 @@ export type Marina = Item & {
   capacity: string
 }
 
-export type Apartment = Item & {
-  price: string | undefined
-  capacity: string
-}
-
 export type Navigation = Omit<Item, 'images'> & {
   text: RichTextType
 }

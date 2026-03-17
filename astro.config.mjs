@@ -20,8 +20,6 @@ export default defineConfig({
         page: 'storyblok/Page',
         marina: 'storyblok/Item',
         marinaList: 'storyblok/MarinaList',
-        apartment: 'storyblok/Item',
-        apartmentList: 'storyblok/ApartmentList',
         navigationList: 'storyblok/NavigationList',
         navigation: 'storyblok/Navigation',
         navigationSection: 'storyblok/NavigationSection'
