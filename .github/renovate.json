@@ -6,9 +6,6 @@
   "automergeType": "pr",
   "automergeStrategy": "squash",
   "timezone": "Europe/Kyiv",
-  "schedule": [
-    "* * * * 5"
-  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
