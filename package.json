@@ -29,7 +29,7 @@
     "storyblok-rich-text-astro-renderer": "^2.5.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
-    "vite": "^5.4.17"
+    "vite": "^8.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.29.0",
