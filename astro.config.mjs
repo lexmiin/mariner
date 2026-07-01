@@ -1,17 +1,18 @@
 import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
-import storyblok from '@storyblok/astro'
+import { storyblok } from '@storyblok/astro';
 import { loadEnv } from 'vite'
 import sitemap from '@astrojs/sitemap'
+
+import tailwindcss from '@tailwindcss/vite';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK')
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://marinerworldwide.com',
+
   integrations: [
-    tailwind(),
     react(),
     sitemap(),
     storyblok({
@@ -28,5 +29,9 @@ export default defineConfig({
         region: 'eu'
       }
     })
-  ]
+  ],
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 })

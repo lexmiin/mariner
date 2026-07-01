@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  --font-cinzel: "Cinzel", sans-serif;
+}
+
+@layer base {
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
