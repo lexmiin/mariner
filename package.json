@@ -19,7 +19,7 @@
     "@storyblok/astro": "^5.1.2",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
-    "astro": "^4.16.18",
+    "astro": "^6.4.6",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.577.0",
