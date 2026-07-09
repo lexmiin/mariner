@@ -5,11 +5,11 @@ Website for yach rental. Built with Astro, Tailwind, Storyblok CMS, and Formspre
 Install deps with:
 
 ```sh
-bun install
+pnpm install
 ```
 
 Run in dev mode:
 
 ```sh
-bun run dev
+pnpm dev
 ```

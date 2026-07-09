@@ -1,5 +1,5 @@
 {
-  description = "A Nix-flake-based Bun development environment";
+  description = "A Nix-flake-based Node.js and pnpm development environment";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -19,7 +19,8 @@
 
         devShells.default = pkgs.mkShell {
           packages = [
-            pkgs.bun
+            pkgs.nodejs_22
+            pkgs.pnpm
           ];
         };
       }
