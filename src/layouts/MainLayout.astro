@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro'
 import Navbar from '@/components/Navbar.astro'
 import Footer from '@/components/Footer.astro'
+import WhatsAppWidget from '@/components/WhatsAppWidget'
 import { loadSiteSettings } from '@/lib/site-settings'
 import { getStoryCatalog } from '@/lib/story-content'
 import type { NavbarTone } from '@/types'
@@ -17,6 +18,7 @@ initialNavbarTone ??= navOverlap ? 'inverse' : 'default'
 title = title ? `${title} | Mariner` : 'Mariner'
 
 const siteSettings = await loadSiteSettings(getStoryCatalog())
+const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER
 ---
 
 <BaseLayout {title}>
@@ -30,5 +32,6 @@ const siteSettings = await loadSiteSettings(getStoryCatalog())
       <slot />
     </main>
     <Footer settings={siteSettings.footer} />
+    <WhatsAppWidget phoneNumber={whatsappNumber} client:load />
   </div>
 </BaseLayout>
