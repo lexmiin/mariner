@@ -1,0 +1,214 @@
+---
+import DetailHero from '@/components/DetailHero.astro'
+import Accordion from '@/components/Accordion.astro'
+import AccordionItem from '@/components/AccordionItem.astro'
+import YachtGallery from '@/components/YachtGallery'
+import YachtLayout from '@/components/YachtLayout'
+import type { Asset } from '@/types'
+import {
+  storyblokEditable,
+  type SbBlokData,
+  type SbRichTextDoc
+} from '@storyblok/astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import {
+  BedDouble,
+  MoveHorizontal,
+  Sailboat,
+  Users,
+  Hammer
+} from 'lucide-react'
+
+type YachtBlok = {
+  _uid: string
+  name: string
+  cover?: Asset
+  heroImage?: Asset
+  beam?: string
+  builder?: string
+  buildYear?: number
+  draft?: string
+  refit?: number
+  type?: string
+  length?: string
+  totalCabins?: number
+  totalCrewMembers?: number
+  totalGuests?: number
+  description: SbRichTextDoc
+  gallery?: Asset[]
+  layout?: Asset[]
+  tendersAndToys?: string
+  sections?: SbBlokData[]
+}
+
+interface Props {
+  blok: YachtBlok
+}
+
+const { blok } = Astro.props
+const headingId = `yacht-${blok._uid}`
+const facts = [
+  { icon: Hammer, label: 'Builder', value: blok.builder },
+  { icon: Sailboat, label: 'Type', value: blok.type },
+  { icon: MoveHorizontal, label: 'Length', value: blok.length },
+  { icon: Users, label: 'Guests', value: blok.totalGuests },
+  { icon: BedDouble, label: 'Cabins', value: blok.totalCabins },
+  { icon: Users, label: 'Crew', value: blok.totalCrewMembers }
+].filter(fact => Boolean(fact.value))
+const specifications = [
+  { label: 'Length', value: blok.length },
+  { label: 'Beam', value: blok.beam },
+  { label: 'Draft', value: blok.draft },
+  { label: 'Cabins', value: blok.totalCabins },
+  { label: 'Crew', value: blok.totalCrewMembers },
+  { label: 'Guests', value: blok.totalGuests },
+  { label: 'Builder', value: blok.builder },
+  { label: 'Build year', value: blok.buildYear },
+  { label: 'Refit', value: blok.refit }
+].filter((specification): specification is { label: string; value: string } =>
+  Boolean(specification.value)
+)
+---
+
+<article class="editorial-page" {...storyblokEditable(blok)}>
+  <DetailHero
+    breadcrumbs={[
+      { href: '/', label: 'Home' },
+      { href: '/our-fleet', label: 'Our fleet' },
+      { label: blok.name }
+    ]}
+    eyebrow={blok.type || 'Yacht charter'}
+    {headingId}
+    image={blok.heroImage ?? blok.cover}
+    title={blok.name}
+  />
+
+  <section
+    class="content-block bg-background"
+    data-block="yacht-overview"
+    aria-labelledby={`${headingId}-details`}
+  >
+    <div
+      class="content-container grid gap-12 lg:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-24"
+    >
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <p
+          class="text-accent text-xs font-semibold tracking-[0.22em] uppercase"
+        >
+          Yacht details
+        </p>
+        <h2
+          id={`${headingId}-details`}
+          class="font-cinzel border-border text-foreground mt-4 border-b pb-6 text-3xl tracking-[0.055em] uppercase sm:text-4xl"
+        >
+          {blok.name}
+        </h2>
+
+        {
+          facts.length > 0 && (
+            <dl class="text-muted-foreground mt-7 grid grid-cols-2 gap-x-5 gap-y-6 text-sm lg:grid-cols-1 xl:grid-cols-2">
+              {facts.map(fact => (
+                <div class="grid min-w-0 grid-cols-[1.125rem_minmax(0,1fr)] gap-x-3 gap-y-1">
+                  <fact.icon
+                    aria-hidden="true"
+                    className="text-muted-foreground col-start-1 row-start-1 self-center"
+                    size={18}
+                    strokeWidth={1.6}
+                  />
+                  <dt class="text-muted-foreground/75 col-start-2 row-start-1 self-center text-[0.625rem] font-semibold tracking-[0.16em] uppercase">
+                    {fact.label}
+                  </dt>
+                  <dd class="text-foreground col-start-2 row-start-2 font-medium">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+      </div>
+
+      <div>
+        <Accordion>
+          <AccordionItem label="Description" name="yacht-details" open>
+            <div class="yacht-description pb-8">
+              <StoryblokRichText document={blok.description} />
+            </div>
+          </AccordionItem>
+          <AccordionItem label="Specification" name="yacht-details">
+            {
+              specifications.length > 0 ? (
+                <dl class="grid grid-cols-2 gap-x-8 gap-y-8 pb-10 sm:grid-cols-3 sm:gap-y-6">
+                  {specifications.map(specification => (
+                    <div>
+                      <dt class="text-muted-foreground text-sm tracking-[0.015em]">
+                        {specification.label}
+                      </dt>
+                      <dd class="text-foreground mt-1 text-sm leading-7 font-medium">
+                        {specification.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p class="text-muted-foreground pb-8">
+                  Specification details are available on request.
+                </p>
+              )
+            }
+          </AccordionItem>
+          <AccordionItem label="Layout" name="yacht-details">
+            {
+              blok.layout?.length && (
+                <YachtLayout
+                  client:load
+                  images={blok.layout}
+                  yachtName={blok.name}
+                />
+              )
+            }
+          </AccordionItem>
+          <AccordionItem label="Tenders & toys" name="yacht-details">
+            <div class="yacht-description pb-8">
+              <p class="whitespace-pre-line">
+                {
+                  blok.tendersAndToys?.trim() ||
+                    'Tenders and toys information is available on request.'
+                }
+              </p>
+            </div>
+          </AccordionItem>
+        </Accordion>
+
+        {
+          blok.gallery?.length && (
+            <YachtGallery
+              client:load
+              images={blok.gallery}
+              yachtName={blok.name}
+            />
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  {blok.sections?.map(section => <StoryblokComponent blok={section} />)}
+</article>
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .yacht-description {
+    @apply text-muted-foreground space-y-5 text-base leading-8 sm:pr-8;
+  }
+
+  .yacht-description p + p {
+    @apply mt-5;
+  }
+
+  .yacht-description a {
+    @apply text-accent decoration-primary hover:text-foreground font-medium underline underline-offset-4 transition-colors;
+  }
+</style>

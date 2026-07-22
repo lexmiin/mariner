@@ -1,0 +1,51 @@
+---
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  headline: string
+  subheadline: string
+  videoUrl: string
+  videoPoster: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+---
+
+<section
+  data-navbar-tone="inverse"
+  class="bg-inverse text-inverse-foreground relative flex min-h-svh w-full items-center justify-center overflow-hidden"
+  data-block="video-hero"
+  {...storyblokEditable(blok)}
+>
+  <video
+    src={blok.videoUrl}
+    poster={blok.videoPoster}
+    preload="auto"
+    autoplay
+    playsinline
+    muted
+    loop
+    class="absolute inset-0 h-full w-full object-cover"
+  >
+    Your browser does not support video tag.
+  </video>
+  <div class="bg-overlay/35 absolute inset-0"></div>
+  <div
+    class="pt-navbar relative z-10 mx-auto max-w-5xl px-6 text-center sm:px-8 lg:px-12"
+  >
+    <h1
+      class="font-cinzel text-4xl leading-tight tracking-wider sm:text-5xl lg:text-7xl"
+    >
+      {blok.headline}
+    </h1>
+    <p
+      class="font-cinzel text-inverse-foreground/90 mt-6 text-lg tracking-[0.03em] sm:text-2xl"
+    >
+      {blok.subheadline}
+    </p>
+  </div>
+</section>

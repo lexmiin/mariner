@@ -1,0 +1,39 @@
+---
+import DestinationMapPins from '@/components/DestinationMapPins'
+import type { PositionedDestinationSummary } from '@/components/DestinationMapPins'
+import { projectDestinationSummary } from '@/lib/destination-summary'
+import { getStoryCatalog } from '@/lib/story-content'
+import { storyblokEditable } from '@storyblok/astro'
+
+const { blok } = Astro.props
+const catalog = getStoryCatalog()
+const stories = await catalog.listStories('destination')
+const destinations = stories
+  .map(projectDestinationSummary)
+  .filter(
+    (destination): destination is PositionedDestinationSummary =>
+      destination.mapPosition !== undefined
+  )
+---
+
+<section
+  class="content-block bg-background hidden overflow-hidden md:block"
+  data-block="destination-map"
+  aria-label="Destinations map"
+  {...storyblokEditable(blok)}
+>
+  <div class="content-container content-container-wide">
+    <h2 class="font-cinzel text-center text-4xl tracking-[0.08em] sm:text-5xl">
+      Destinations
+    </h2>
+    <div class="relative mt-12 sm:mt-16 lg:mt-20">
+      <img
+        src="/images/map.webp"
+        alt="Map showing Mariner destinations"
+        class="block h-auto w-full select-none"
+        draggable="false"
+      />
+      <DestinationMapPins client:load {destinations} />
+    </div>
+  </div>
+</section>

@@ -1,14 +1,21 @@
 ---
 interface Props {
   href: string
+  target?: '_blank' | '_self'
 }
 
-const { href } = Astro.props
-const isActive = href === Astro.url.pathname
+const { href, target } = Astro.props
+const pathname = href.startsWith('http')
+  ? ''
+  : new URL(href, Astro.url).pathname
+const isActive = pathname === Astro.url.pathname
 ---
 
 <a
   href={href}
+  target={target}
+  rel={target === '_blank' ? 'noreferrer' : undefined}
+  aria-current={isActive ? 'page' : undefined}
   class={`hidden ${isActive ? 'opacity-100' : 'opacity-60'} transition-opacity hover:opacity-100 hover:underline md:inline`}
 >
   <slot />

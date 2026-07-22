@@ -1,0 +1,23 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { getStoryCatalog, type Story } from '@/lib/story-content'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import type { GetStaticPaths } from 'astro'
+
+export const getStaticPaths = (async () => {
+  const catalog = getStoryCatalog()
+  const stories = await catalog.listStories('yacht')
+
+  return stories.map(story => ({
+    params: { slug: story.slug },
+    props: { story }
+  }))
+}) satisfies GetStaticPaths
+
+const { story } = Astro.props as { story: Story }
+const yacht = { ...story.content, name: story.name }
+---
+
+<MainLayout title={story.name}>
+  <StoryblokComponent blok={yacht} />
+</MainLayout>

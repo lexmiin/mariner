@@ -1,0 +1,39 @@
+---
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+  headline: string
+  subheadline?: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const headingId = `page-intro-${blok._uid}`
+---
+
+<section
+  class="content-block content-block-compact"
+  data-block="page-intro"
+  aria-labelledby={headingId}
+  {...storyblokEditable(blok)}
+>
+  <header class="content-container max-w-4xl text-center">
+    <h1
+      id={headingId}
+      class="font-cinzel text-foreground text-3xl leading-tight tracking-[0.055em] uppercase sm:text-4xl"
+    >
+      {blok.headline}
+    </h1>
+    {
+      blok.subheadline && (
+        <p class="text-muted-foreground mx-auto mt-6 max-w-3xl text-base leading-8 text-pretty sm:mt-7">
+          {blok.subheadline}
+        </p>
+      )
+    }
+  </header>
+</section>

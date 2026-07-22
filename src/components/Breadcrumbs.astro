@@ -1,0 +1,71 @@
+---
+import type { Breadcrumb, ResolvedBreadcrumbPlacement } from '@/types'
+
+interface Props {
+  items: Breadcrumb[]
+  placement?: Exclude<ResolvedBreadcrumbPlacement, 'hidden'>
+}
+
+const { items, placement = 'bar' } = Astro.props
+---
+
+{
+  items.length > 0 && (
+    <div
+      data-navbar-tone={placement === 'bar' ? 'default' : undefined}
+      class:list={[
+        placement === 'bar'
+          ? 'border-border bg-secondary/70 border-b px-6 lg:px-12'
+          : 'contents'
+      ]}
+    >
+      <nav
+        class:list={[
+          'flex flex-wrap items-center gap-x-3 gap-y-1 text-xs tracking-[0.04em]',
+          placement === 'bar'
+            ? 'mx-auto h-12 max-w-360'
+            : 'text-inverse-foreground/75 font-medium tracking-[0.08em] sm:text-sm'
+        ]}
+        aria-label="Breadcrumb"
+      >
+        {items.map((item, index) => (
+          <>
+            {index > 0 && (
+              <span
+                class:list={[placement === 'bar' && 'text-muted-foreground/60']}
+                aria-hidden="true"
+              >
+                /
+              </span>
+            )}
+            {item.href ? (
+              <a
+                class:list={[
+                  'focus-visible:outline-ring transition-colors focus-visible:outline-2 focus-visible:outline-offset-4',
+                  placement === 'bar'
+                    ? 'text-muted-foreground hover:text-foreground'
+                    : 'hover:text-inverse-foreground'
+                ]}
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            ) : (
+              <span
+                class:list={[
+                  'font-semibold',
+                  placement === 'bar'
+                    ? 'text-foreground'
+                    : 'text-inverse-foreground'
+                ]}
+                aria-current="page"
+              >
+                {item.label}
+              </span>
+            )}
+          </>
+        ))}
+      </nav>
+    </div>
+  )
+}

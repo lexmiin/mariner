@@ -1,0 +1,62 @@
+---
+import { projectDestinationSummary } from '@/lib/destination-summary'
+import { getStoryCatalog } from '@/lib/story-content'
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const catalog = getStoryCatalog()
+const stories = await catalog.listStories('destination')
+const destinations = stories.map(projectDestinationSummary)
+---
+
+<section
+  class="content-block bg-background"
+  data-block="destination-list"
+  {...storyblokEditable(blok)}
+>
+  <div class="content-container max-w-5xl">
+    {
+      destinations.length > 0 ? (
+        <ul class="grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
+          {destinations.map(destination => (
+            <li class="min-w-0">
+              <a
+                class="group bg-inverse focus-visible:outline-ring relative block aspect-[4/5] overflow-hidden focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4"
+                href={destination.href}
+              >
+                <img
+                  src={destination.image.src}
+                  alt={destination.image.alt}
+                  class="h-full w-full object-cover transition-transform duration-[var(--motion-duration-ui)] ease-[var(--motion-ease-out)] pointer-fine:group-hover:scale-[1.035] motion-reduce:group-hover:scale-100 motion-reduce:transition-none"
+                />
+                <div class="from-overlay/90 via-overlay/10 absolute inset-0 bg-linear-to-t to-transparent" />
+                <div class="text-inverse-foreground absolute inset-x-0 bottom-0 p-6 sm:p-7 lg:p-8">
+                  <h3 class="font-cinzel text-2xl tracking-[0.055em] sm:text-3xl">
+                    {destination.name}
+                  </h3>
+                  {destination.description && (
+                    <p class="text-inverse-foreground/80 mt-3 max-w-sm text-base leading-7">
+                      {destination.description}
+                    </p>
+                  )}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-muted-foreground border-border border-y py-10">
+          Destination stories will appear here once they are published.
+        </p>
+      )
+    }
+  </div>
+</section>

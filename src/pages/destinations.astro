@@ -1,0 +1,16 @@
+---
+import PageChrome from '@/layouts/PageChrome.astro'
+import { getStoryCatalog } from '@/lib/story-content'
+import type { Breadcrumb } from '@/types'
+
+const catalog = getStoryCatalog()
+const story = await catalog.findStory('page', 'destinations')
+if (!story) throw new Error('Destinations Page Story not found')
+
+const breadcrumbs = [
+  { href: '/', label: 'Home' },
+  { label: story.name }
+] satisfies Breadcrumb[]
+---
+
+<PageChrome {story} {breadcrumbs} title={story.name} />

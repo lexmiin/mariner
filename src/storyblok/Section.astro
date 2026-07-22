@@ -1,0 +1,50 @@
+---
+import { isRichTextEmpty } from '@/lib/rich-text'
+import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+
+type Blok = {
+  _uid: string
+  heading: string
+  body?: SbRichTextDoc
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const headingId = `section-intro-${blok._uid}`
+const hasBody = !isRichTextEmpty(blok.body)
+---
+
+<div
+  class="content-block content-block-compact"
+  data-block="section-intro"
+  aria-labelledby={headingId}
+  {...storyblokEditable(blok)}
+>
+  <header class="content-container mx-auto max-w-5xl">
+    <h2
+      id={headingId}
+      class="font-cinzel text-foreground text-2xl leading-snug tracking-[0.045em] uppercase sm:text-3xl"
+    >
+      {blok.heading}
+    </h2>
+    {
+      hasBody && (
+        <div class="rich-text section-intro-body mt-6">
+          <StoryblokRichText document={blok.body} />
+        </div>
+      )
+    }
+  </header>
+</div>
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .section-intro-body {
+    @apply text-muted-foreground space-y-6;
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro'
+import type { Asset } from '@/types'
+import type { Breadcrumb } from '@/types'
+
+interface Props {
+  breadcrumbs?: Breadcrumb[]
+  eyebrow?: string
+  headingId: string
+  image?: Asset
+  title: string
+}
+
+const { breadcrumbs = [], eyebrow, headingId, image, title } = Astro.props
+---
+
+<header
+  data-navbar-tone="inverse"
+  class="bg-inverse text-inverse-foreground relative isolate min-h-[35rem] overflow-hidden sm:min-h-[40rem]"
+>
+  {
+    image ? (
+      <img
+        src={image.filename}
+        alt={image.alt || title}
+        class="absolute inset-0 -z-20 h-full w-full object-cover"
+      />
+    ) : (
+      <div class="absolute inset-0 -z-20 bg-[linear-gradient(135deg,#073a50_0%,#0d6680_48%,#4bbbc8_100%)]" />
+    )
+  }
+  <div
+    class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(2,19,30,0.64)_0%,rgba(3,30,43,0.1)_34%,rgba(3,22,31,0.46)_100%)]"
+  >
+  </div>
+
+  <div
+    class="mx-auto flex min-h-[35rem] max-w-360 flex-col px-6 pt-28 pb-16 sm:min-h-[40rem] sm:px-8 sm:pt-32 sm:pb-20 lg:px-12 xl:px-20"
+  >
+    <Breadcrumbs items={breadcrumbs} placement="overlay" />
+
+    <div class="my-auto py-12 text-center sm:py-16">
+      {
+        eyebrow && (
+          <p class="text-primary-soft mb-5 text-[0.6875rem] font-semibold tracking-[0.2em] uppercase sm:text-xs">
+            {eyebrow}
+          </p>
+        )
+      }
+      <h1
+        id={headingId}
+        class="font-cinzel text-4xl leading-none tracking-[0.055em] sm:text-6xl lg:text-7xl"
+      >
+        {title}
+      </h1>
+    </div>
+  </div>
+</header>

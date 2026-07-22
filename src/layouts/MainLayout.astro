@@ -2,21 +2,33 @@
 import BaseLayout from './BaseLayout.astro'
 import Navbar from '@/components/Navbar.astro'
 import Footer from '@/components/Footer.astro'
+import { loadSiteSettings } from '@/lib/site-settings'
+import { getStoryCatalog } from '@/lib/story-content'
+import type { NavbarTone } from '@/types'
 
 interface Props {
+  initialNavbarTone?: NavbarTone
+  navOverlap?: boolean
   title?: string
 }
 
-let { title } = Astro.props
+let { initialNavbarTone, navOverlap = true, title } = Astro.props
+initialNavbarTone ??= navOverlap ? 'inverse' : 'default'
 title = title ? `${title} | Mariner` : 'Mariner'
+
+const siteSettings = await loadSiteSettings(getStoryCatalog())
 ---
 
 <BaseLayout {title}>
-  <div>
-    <Navbar />
-    <main class="mx-auto max-w-3xl px-4 pt-32">
+  <slot name="head" slot="head" />
+  <div class="flex min-h-screen flex-col">
+    <Navbar initialTone={initialNavbarTone} items={siteSettings.header.items} />
+    <main
+      data-navbar-tone="default"
+      class:list={['flex-1', { 'pt-navbar': !navOverlap }]}
+    >
       <slot />
     </main>
-    <Footer />
+    <Footer settings={siteSettings.footer} />
   </div>
 </BaseLayout>

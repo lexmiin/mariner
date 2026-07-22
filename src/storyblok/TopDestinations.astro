@@ -1,0 +1,78 @@
+---
+import TopDestinationsCarousel from '@/components/TopDestinationsCarousel'
+import LinkButton from '@/components/LinkButton'
+import { projectDestinationSummary } from '@/lib/destination-summary'
+import type { Story } from '@/lib/story-content'
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+  ctaLabel: string
+  destinations?: Story[]
+  eyebrow?: string
+  heading?: string
+  introduction?: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+
+const destinations = (blok.destinations ?? []).map(projectDestinationSummary)
+const headingId = `top-destinations-${blok._uid}`
+---
+
+<section
+  class="content-block bg-background overflow-hidden"
+  data-block="top-destinations"
+  aria-labelledby={headingId}
+  {...storyblokEditable(blok)}
+>
+  <div
+    class="content-container content-container-wide grid gap-12 lg:grid-cols-[minmax(17rem,0.8fr)_minmax(0,1.6fr)] lg:items-center lg:gap-20"
+  >
+    <div class="lg:max-w-md lg:justify-self-end">
+      {
+        blok.eyebrow && (
+          <p class="text-accent text-[0.65rem] font-semibold tracking-[0.24em] uppercase">
+            {blok.eyebrow}
+          </p>
+        )
+      }
+      <h2
+        id={headingId}
+        class:list={[
+          'font-cinzel text-4xl leading-tight tracking-[0.06em] sm:text-5xl lg:text-4xl',
+          blok.eyebrow && 'mt-4'
+        ]}
+      >
+        {blok.heading || 'Top Destinations'}
+      </h2>
+      <p class="text-muted-foreground mt-6 text-base leading-8">
+        {
+          blok.introduction ||
+            'Explore the world’s most sought-after coastlines, where unspoiled waters and memorable places set the pace. Every voyage is designed around the way you want to travel.'
+        }
+      </p>
+      {
+        blok.ctaLabel && (
+          <LinkButton className="mt-8" href="/destinations">
+            {blok.ctaLabel}
+          </LinkButton>
+        )
+      }
+    </div>
+
+    {
+      destinations.length > 0 ? (
+        <TopDestinationsCarousel client:visible destinations={destinations} />
+      ) : (
+        <p class="text-muted-foreground border-border border-y py-10 lg:self-stretch">
+          Select destination stories to populate this block.
+        </p>
+      )
+    }
+  </div>
+</section>

@@ -1,27 +1,84 @@
 ---
 import Logo from './Logo.astro'
 import NavbarLink from './NavbarLink.astro'
-import ThemeToggle from './ThemeToggle'
-import DropdownMenu from './DropdownMenu'
+import type { NavbarTone, NavigationItem } from '@/types'
+import NavigationOverlay from './NavigationOverlay'
+
+interface Props {
+  initialTone?: NavbarTone
+  items: NavigationItem[]
+}
+
+const { initialTone = 'default', items } = Astro.props
+const featuredItems = items.flatMap(item =>
+  item.type === 'link'
+    ? item.featured
+      ? [item]
+      : []
+    : item.items.filter(link => link.featured)
+)
 ---
 
 <div
-  class="fixed z-10 w-full bg-white/40 shadow-sm backdrop-blur-lg dark:bg-gray-950/40"
+  data-navbar
+  data-initial-tone={initialTone}
+  data-tone={initialTone}
+  class="group/navbar text-foreground data-[tone=inverse]:text-inverse-foreground fixed inset-x-0 top-0 z-20 w-full backdrop-blur-sm transition-colors duration-200 motion-reduce:transition-none"
 >
-  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-2">
-    <div class="flex items-center gap-4">
-      <div class="mr-5">
-        <Logo />
-      </div>
-      <NavbarLink href="/marina">Marina</NavbarLink>
-      <NavbarLink href="/navigations">Navigations</NavbarLink>
-      <NavbarLink href="/contact-us">Contact Us</NavbarLink>
+  <div
+    class="min-h-navbar grid grid-cols-[1fr_auto_1fr] items-center px-5 sm:px-8 lg:px-12"
+  >
+    <div class="justify-self-start">
+      <NavigationOverlay
+        items={items}
+        currentPath={Astro.url.pathname}
+        client:load
+      />
     </div>
-    <div class="flex items-center gap-2">
-      <ThemeToggle client:load />
-      <div class="inline-flex items-center md:hidden">
-        <DropdownMenu client:load />
-      </div>
-    </div>
+    <Logo />
+    <nav
+      aria-label="Main navigation"
+      class="hidden gap-7 justify-self-end text-sm font-medium tracking-[0.08em] uppercase lg:flex"
+    >
+      {
+        featuredItems.map(item => (
+          <NavbarLink href={item.href} target={item.target}>
+            {item.label}
+          </NavbarLink>
+        ))
+      }
+    </nav>
+    <div class="lg:hidden"></div>
   </div>
 </div>
+
+<script>
+  const navbars = document.querySelectorAll<HTMLElement>('[data-navbar]')
+
+  const updateNavbarTones = () => {
+    for (const navbar of navbars) {
+      const elementBelowNavbar = document
+        .elementsFromPoint(window.innerWidth / 2, navbar.offsetHeight / 2)
+        .find(element => !navbar.contains(element))
+      const surface =
+        elementBelowNavbar?.closest<HTMLElement>('[data-navbar-tone]')
+
+      navbar.dataset.tone =
+        surface?.dataset.navbarTone ?? navbar.dataset.initialTone ?? 'default'
+    }
+  }
+
+  let frame: number | undefined
+  const scheduleNavbarUpdate = () => {
+    if (frame !== undefined) return
+
+    frame = window.requestAnimationFrame(() => {
+      updateNavbarTones()
+      frame = undefined
+    })
+  }
+
+  updateNavbarTones()
+  window.addEventListener('scroll', scheduleNavbarUpdate, { passive: true })
+  window.addEventListener('resize', scheduleNavbarUpdate)
+</script>
