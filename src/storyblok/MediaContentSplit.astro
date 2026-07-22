@@ -1,0 +1,127 @@
+---
+import type { Asset, StoryblokLink } from '@/types'
+import LinkButton from '@/components/LinkButton'
+import { resolveStoryblokLink } from '@/lib/navigation'
+import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+
+type Blok = {
+  _uid: string
+  eyebrow?: string
+  heading: string
+  body?: SbRichTextDoc
+  media: Asset
+  mediaPosition?: 'left' | 'right'
+  ctaLabel?: string
+  ctaLink?: StoryblokLink
+  caption?: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const headingId = `media-content-split-${blok._uid}`
+const mediaOnRight = blok.mediaPosition !== 'left'
+const ctaHref = blok.ctaLink ? resolveStoryblokLink(blok.ctaLink) : ''
+const hasCta = Boolean(blok.ctaLabel && ctaHref)
+const isVideo = blok.media.content_type?.startsWith('video/') ?? false
+---
+
+<section
+  class="content-block bg-background"
+  data-block="media-content-split"
+  aria-labelledby={headingId}
+  {...storyblokEditable(blok)}
+>
+  <div
+    class="content-container grid items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-24"
+  >
+    {
+      blok.media.filename && (
+        <figure
+          class:list={['min-w-0', mediaOnRight ? 'lg:order-2' : 'lg:order-1']}
+        >
+          <div class="bg-muted -mx-6 aspect-4/3 w-[calc(100%+3rem)] overflow-hidden sm:aspect-3/2 lg:mx-0 lg:aspect-4/5 lg:w-auto">
+            {isVideo ? (
+              <video
+                class="h-full w-full object-cover"
+                src={blok.media.filename}
+                controls
+                playsinline
+                preload="metadata"
+              >
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <img
+                class="h-full w-full object-cover"
+                src={blok.media.filename}
+                alt={blok.media.alt || ''}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+          </div>
+          {blok.caption && (
+            <figcaption class="text-muted-foreground mt-3 text-xs leading-5 tracking-[0.04em]">
+              {blok.caption}
+            </figcaption>
+          )}
+        </figure>
+      )
+    }
+
+    <div
+      class:list={[
+        'max-w-xl',
+        mediaOnRight ? 'lg:order-1 lg:justify-self-end' : 'lg:order-2'
+      ]}
+    >
+      {
+        blok.eyebrow && (
+          <p class="text-primary text-xs font-semibold tracking-[0.18em] uppercase">
+            {blok.eyebrow}
+          </p>
+        )
+      }
+      <h2
+        id={headingId}
+        class:list={[
+          'font-cinzel text-foreground text-3xl leading-tight tracking-[0.045em] uppercase sm:text-4xl',
+          blok.eyebrow && 'mt-4'
+        ]}
+      >
+        {blok.heading}
+      </h2>
+      {
+        blok.body && (
+          <div class="rich-text media-content-body mt-6">
+            <StoryblokRichText document={blok.body} />
+          </div>
+        )
+      }
+      {
+        hasCta && (
+          <LinkButton
+            className="mt-8"
+            href={ctaHref}
+            target={blok.ctaLink?.target}
+            rel={blok.ctaLink?.target === '_blank' ? 'noreferrer' : undefined}
+          >
+            {blok.ctaLabel}
+          </LinkButton>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .media-content-body {
+    @apply text-muted-foreground;
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import { resolvePageChrome } from '@/lib/page-chrome'
+import type { PageBlok } from '@/lib/page-chrome'
+import type { Story } from '@/lib/story-content'
+import type { Breadcrumb } from '@/types'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import MainLayout from './MainLayout.astro'
+
+interface Props {
+  story: Story<PageBlok>
+  breadcrumbs?: Breadcrumb[]
+  title?: string
+}
+
+const { story, breadcrumbs = [], title } = Astro.props
+
+if (story.kind !== 'page') {
+  throw new Error(`Page Chrome cannot render a ${story.kind} Story`)
+}
+
+const pageChrome = resolvePageChrome(story.content)
+---
+
+<MainLayout
+  {title}
+  navOverlap={pageChrome.navbarOverlap}
+  initialNavbarTone={pageChrome.initialNavbarTone}
+>
+  <slot name="head" slot="head" />
+
+  <div class="relative">
+    {
+      pageChrome.breadcrumbPlacement === 'bar' && (
+        <Breadcrumbs items={breadcrumbs} placement="bar" />
+      )
+    }
+    {
+      pageChrome.breadcrumbPlacement === 'overlay' &&
+        breadcrumbs.length > 0 && (
+          <div
+            data-navbar-tone={pageChrome.initialNavbarTone}
+            class="absolute inset-x-0 top-0 z-10 mx-auto max-w-360 px-6 pt-28 sm:px-8 sm:pt-32 lg:px-12 xl:px-20"
+          >
+            <Breadcrumbs items={breadcrumbs} placement="overlay" />
+          </div>
+        )
+    }
+    <StoryblokComponent blok={story.content} />
+  </div>
+</MainLayout>

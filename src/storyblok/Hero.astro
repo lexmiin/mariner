@@ -1,0 +1,28 @@
+---
+import DetailHero from '@/components/DetailHero.astro'
+import type { Asset } from '@/types'
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+  eyebrow?: string
+  image?: Asset
+  title: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const headingId = `hero-${blok._uid}`
+---
+
+<div data-block="hero" {...storyblokEditable(blok)}>
+  <DetailHero
+    eyebrow={blok.eyebrow}
+    headingId={headingId}
+    image={blok.image}
+    title={blok.title}
+  />
+</div>

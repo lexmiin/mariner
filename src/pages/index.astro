@@ -1,31 +1,23 @@
 ---
-import MainLayout from '@/layouts/MainLayout.astro'
+import PageChrome from '@/layouts/PageChrome.astro'
+import { getStoryCatalog } from '@/lib/story-content'
+
+const catalog = getStoryCatalog()
+const story = await catalog.findStory('page', 'landing')
+if (!story) throw new Error('Landing Story not found')
 ---
 
-<MainLayout>
-  <div class="pb-5 text-center">
-    <h1 class="pb-2 font-cinzel text-3xl">Mariner</h1>
-  </div>
-  <div
-    class="relative flex w-full items-center justify-center overflow-hidden rounded lg:-mx-24 lg:w-[calc(96px*2+100%)] lg:max-w-[calc(96px*2+100%)]"
-  >
-    <video
-      src="https://media.marinerworldwide.com/home.mp4"
-      autoplay
-      playsinline
-      muted
-      class="aspect-video h-full w-full object-cover"
-    >
-      Your browser does not support video tag.
-    </video>
-  </div>
-  <div class="pt-8 text-gray-500 dark:text-gray-400">
-    <p class="text-center">
-      Explore, experience and enjoy the world with Mariner. We provide exclusive
-      services for everyone.
-    </p>
-    <p class="pt-2 text-center">
-      Discover yachts, catamarans and more.
-    </p>
-  </div>
-</MainLayout>
+<PageChrome {story}>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/images/home-poster.webp"
+    fetchpriority="high"
+  />
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://media.marinerworldwide.com"
+  />
+</PageChrome>

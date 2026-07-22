@@ -1,51 +1,11 @@
 ---
 import type { Navigation } from '@/types'
-import RichTextRenderer from 'storyblok-rich-text-astro-renderer/RichTextRenderer.astro'
-import { storyblokEditable } from '@storyblok/astro'
-import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
 
 interface Props {
   blok: Navigation
 }
 
 const { blok } = Astro.props
-const { text } = blok
 ---
 
-<article class="navigation-article" {...storyblokEditable(blok)}>
-  <RichTextRenderer
-    content={text}
-    resolver={blok => {
-      return {
-        component: StoryblokComponent,
-        props: { blok }
-      }
-    }}
-    {...storyblokEditable(blok)}
-  />
-</article>
-
-<style is:global>
-  @reference "../styles/global.css";
-
-  .navigation-article h1,
-  .navigation-article h2,
-  .navigation-article h3,
-  .navigation-article h4,
-  .navigation-article h5,
-  .navigation-article h6 {
-    @apply font-cinzel;
-  }
-
-  .navigation-article h1 {
-    @apply mb-6 text-2xl;
-  }
-
-  .navigation-article h2 {
-    @apply mb-4 text-xl underline underline-offset-4;
-  }
-
-  .navigation-article h3 {
-    @apply mb-2 text-lg underline underline-offset-4;
-  }
-</style>
+<div></div>

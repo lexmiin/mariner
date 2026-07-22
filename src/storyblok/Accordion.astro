@@ -1,0 +1,101 @@
+---
+import AccordionPrimitive from '@/components/Accordion.astro'
+import AccordionItem from '@/components/AccordionItem.astro'
+import { isRichTextEmpty } from '@/lib/rich-text'
+import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+
+type AccordionItemBlok = {
+  _uid: string
+  component: 'accordionItem'
+  label: string
+  body: SbRichTextDoc
+}
+
+type Blok = {
+  _uid: string
+  heading?: string
+  introduction?: SbRichTextDoc
+  items?: AccordionItemBlok[]
+  firstItemOpen?: boolean
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const items = (blok.items ?? []).filter(item => item.label?.trim())
+const headingId = `accordion-${blok._uid}`
+const groupName = `accordion-${blok._uid}`
+const hasIntroduction = !isRichTextEmpty(blok.introduction)
+---
+
+{
+  items.length > 0 && (
+    <section
+      aria-label={!blok.heading ? 'Accordion' : undefined}
+      aria-labelledby={blok.heading ? headingId : undefined}
+      class="bg-background px-6 py-16 sm:py-20 lg:px-12 lg:py-28 xl:px-20"
+      {...storyblokEditable(blok)}
+    >
+      <div class="mx-auto max-w-5xl">
+        {(blok.heading || hasIntroduction) && (
+          <header class="mb-10 max-w-3xl sm:mb-14">
+            {blok.heading && (
+              <h2
+                class="font-cinzel text-foreground text-3xl leading-tight tracking-[0.045em] uppercase sm:text-4xl"
+                id={headingId}
+              >
+                {blok.heading}
+              </h2>
+            )}
+            {hasIntroduction && (
+              <div
+                class:list={[
+                  'rich-text accordion-introduction text-muted-foreground',
+                  blok.heading && 'mt-6'
+                ]}
+              >
+                <StoryblokRichText document={blok.introduction!} />
+              </div>
+            )}
+          </header>
+        )}
+
+        <AccordionPrimitive>
+          {items.map((item, index) => (
+            <AccordionItem
+              label={item.label}
+              name={groupName}
+              open={Boolean(blok.firstItemOpen && index === 0)}
+              {...storyblokEditable(item)}
+            >
+              <div class="accordion-body rich-text pb-8 sm:pr-8">
+                <StoryblokRichText document={item.body} />
+              </div>
+            </AccordionItem>
+          ))}
+        </AccordionPrimitive>
+      </div>
+    </section>
+  )
+}
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .accordion-introduction,
+  .accordion-body {
+    @apply space-y-5;
+  }
+
+  .accordion-body {
+    @apply text-muted-foreground;
+  }
+
+  .accordion-introduction a,
+  .accordion-body a {
+    @apply text-accent decoration-primary hover:text-foreground font-medium underline underline-offset-4 transition-colors;
+  }
+</style>

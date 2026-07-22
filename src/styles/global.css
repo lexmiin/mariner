@@ -1,20 +1,221 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400&display=swap");
-@import "tailwindcss";
+@import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
+/*
+ * Semantic tokens alias Tailwind's built-in palette variables. Components use
+ * roles (for example, bg-primary/90), while Tailwind remains the single source
+ * of truth for the underlying colour scale.
+ */
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-gray-900);
+  --card: var(--color-white);
+  --card-foreground: var(--color-gray-900);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-gray-900);
+  --primary: var(--color-cyan-600);
+  --primary-foreground: var(--color-white);
+  --primary-soft: var(--color-cyan-100);
+  --secondary: var(--color-gray-100);
+  --secondary-foreground: var(--color-gray-900);
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-500);
+  --accent: var(--color-cyan-700);
+  --accent-foreground: var(--color-white);
+  --destructive: var(--color-red-600);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-gray-200);
+  --input: var(--color-gray-200);
+  --ring: var(--color-cyan-700);
+  --inverse: var(--color-gray-900);
+  --inverse-foreground: var(--color-white);
+  --overlay: var(--color-black);
+  --radius: 0.5rem;
+  --elevation-card: var(--shadow-sm);
+  --elevation-popover: var(--shadow-lg);
+  --motion-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --motion-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-duration-press: 160ms;
+  --motion-duration-ui: 200ms;
+  --motion-duration-popover: 200ms;
+  --page-gutter: 1.5rem;
+  --content-width: 80rem;
+  --content-width-wide: 90rem;
+  --section-space: 4rem;
+  --section-space-compact: 3rem;
+}
 
+@media (min-width: 40rem) {
+  :root {
+    --page-gutter: 2rem;
+    --section-space: 5rem;
+    --section-space-compact: 3.5rem;
+  }
+}
 
-@theme {
-  --font-cinzel: "Cinzel", sans-serif;
+@media (min-width: 64rem) {
+  :root {
+    --page-gutter: 3rem;
+    --section-space: 7rem;
+    --section-space-compact: 4.5rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  :root {
+    --page-gutter: 5rem;
+  }
+}
+
+.dark {
+  --background: var(--color-gray-950);
+  --foreground: var(--color-gray-50);
+  --card: var(--color-gray-900);
+  --card-foreground: var(--color-gray-50);
+  --popover: var(--color-gray-900);
+  --popover-foreground: var(--color-gray-50);
+  --primary: var(--color-cyan-400);
+  --primary-foreground: var(--color-gray-900);
+  --primary-soft: var(--color-cyan-200);
+  --secondary: var(--color-gray-800);
+  --secondary-foreground: var(--color-gray-50);
+  --muted: var(--color-gray-800);
+  --muted-foreground: var(--color-gray-400);
+  --accent: var(--color-cyan-400);
+  --accent-foreground: var(--color-gray-900);
+  --destructive: var(--color-red-500);
+  --destructive-foreground: var(--color-gray-50);
+  --border: var(--color-gray-800);
+  --input: var(--color-gray-800);
+  --ring: var(--color-cyan-400);
+  /* Image viewers and photographic heroes stay dark in either site theme. */
+  --inverse: var(--color-gray-900);
+  --inverse-foreground: var(--color-white);
+  --overlay: var(--color-gray-950);
+}
+
+@theme inline {
+  --spacing-navbar: 5rem;
+  --font-cinzel: 'Cinzel', sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-overlay: var(--overlay);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --shadow-card: var(--elevation-card);
+  --shadow-popover: var(--elevation-popover);
 }
 
 @layer base {
-
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--border);
+  }
+
+  body {
+    @apply bg-background text-foreground min-w-80 antialiased;
+  }
+}
+
+@layer components {
+  /*
+   * Editor-facing blocks share one composition contract. A block owns its
+   * outer rhythm; its content uses the same responsive gutter and measure.
+   * Intro blocks hand off to the next block without accumulating two large
+   * top/bottom spaces, so editors can reorder blocks without spacer fields.
+   */
+  .editorial-page {
+    @apply flow-root;
+  }
+
+  .content-block {
+    padding-block: var(--section-space);
+    padding-inline: var(--page-gutter);
+  }
+
+  .content-block-compact {
+    padding-block: var(--section-space-compact);
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: var(--content-width);
+    margin-inline: auto;
+  }
+
+  .content-container-wide {
+    max-width: var(--content-width-wide);
+  }
+
+  .content-header {
+    @apply mb-10 max-w-3xl sm:mb-14;
+  }
+
+  .editorial-page > [data-block='page-intro'] + [data-block],
+  .editorial-page > [data-block='section-intro'] + [data-block] {
+    padding-top: 0;
+  }
+
+  .editorial-page > [data-block='page-intro'] + [data-block] > .content-block,
+  .editorial-page
+    > [data-block='section-intro']
+    + [data-block]
+    > .content-block {
+    padding-top: 0;
+  }
+
+  .rich-text {
+    @apply text-base leading-8;
+  }
+
+  .rich-text p + p {
+    @apply mt-6;
+  }
+
+  .rich-text ul,
+  .rich-text ol {
+    @apply mt-6 space-y-2 pl-6;
+  }
+
+  .rich-text ul {
+    @apply list-disc;
+  }
+
+  .rich-text ol {
+    @apply list-decimal;
+  }
+
+  .rich-text li > ul,
+  .rich-text li > ol {
+    @apply mt-2;
+  }
+
+  .rich-text a {
+    @apply text-accent decoration-primary hover:text-foreground font-medium underline underline-offset-4 transition-colors;
   }
 }

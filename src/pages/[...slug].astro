@@ -1,0 +1,43 @@
+---
+import PageChrome from '@/layouts/PageChrome.astro'
+import { getStoryCatalog, type Story } from '@/lib/story-content'
+import type { Breadcrumb } from '@/types'
+import type { GetStaticPaths } from 'astro'
+
+export const getStaticPaths = (async () => {
+  const catalog = getStoryCatalog()
+  const stories = await catalog.listStories('page')
+
+  return stories
+    .filter(story => story.fullSlug !== 'landing')
+    .map(story => ({
+      params: { slug: story.fullSlug },
+      props: {
+        breadcrumbs: [
+          { href: '/', label: 'Home' },
+          ...stories
+            .filter(candidate => {
+              return (
+                candidate.fullSlug !== story.fullSlug &&
+                story.fullSlug.startsWith(`${candidate.fullSlug}/`)
+              )
+            })
+            .sort((left, right) => left.fullSlug.length - right.fullSlug.length)
+            .map(candidate => ({
+              href: `/${candidate.fullSlug}`,
+              label: candidate.name
+            })),
+          { label: story.name }
+        ] satisfies Breadcrumb[],
+        story
+      }
+    }))
+}) satisfies GetStaticPaths
+
+const { breadcrumbs, story } = Astro.props as {
+  breadcrumbs: Breadcrumb[]
+  story: Story
+}
+---
+
+<PageChrome {story} {breadcrumbs} title={story.name} />

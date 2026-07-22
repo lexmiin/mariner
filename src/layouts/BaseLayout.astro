@@ -16,8 +16,9 @@ const { title } = Astro.props
   <head>
     <Head />
     <HeadSEO title={title} description="Yachting and more" />
+    <slot name="head" />
   </head>
-  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+  <body>
     <Toaster client:load />
     <slot />
   </body>

@@ -1,0 +1,90 @@
+---
+import {
+  BedDouble,
+  Hammer,
+  MoveHorizontal,
+  Sailboat,
+  Users
+} from 'lucide-react'
+import LinkButton from '@/components/LinkButton'
+import type { YachtSummary, YachtSummaryFactKind } from '@/lib/yacht-summary'
+
+interface Props {
+  index: number
+  summary: YachtSummary
+}
+
+const { index, summary } = Astro.props
+const { facts, href, image, name, priceLabel } = summary
+
+const factIcons: Record<YachtSummaryFactKind, typeof Hammer> = {
+  builder: Hammer,
+  type: Sailboat,
+  length: MoveHorizontal,
+  guests: Users,
+  cabins: BedDouble,
+  crew: Users
+}
+---
+
+<article
+  class="group bg-card ring-foreground/8 flex h-full flex-col ring-1"
+>
+  <div class="bg-secondary relative aspect-4/3 overflow-hidden">
+    <img
+      src={image.src}
+      alt={image.alt}
+      loading="lazy"
+      class="h-full w-full object-cover transition-transform duration-[var(--motion-duration-ui)] ease-[var(--motion-ease-out)] pointer-fine:group-hover:scale-[1.035] motion-reduce:group-hover:scale-100 motion-reduce:transition-none"
+    />
+    <span
+      class="border-inverse-foreground/75 bg-overlay/15 text-inverse-foreground absolute top-4 right-4 grid size-10 place-items-center rounded-full border text-[0.65rem] font-semibold tracking-[0.18em] backdrop-blur-sm"
+      aria-hidden="true"
+    >
+      {String(index).padStart(2, '0')}
+    </span>
+  </div>
+
+  <div class="flex grow flex-col">
+    <div class="border-border border-b px-5 py-7 text-center">
+      <h3
+        class="font-cinzel text-muted-foreground text-2xl tracking-[0.08em] uppercase"
+      >
+        {name}
+      </h3>
+    </div>
+
+    <div class="border-border border-b px-5 py-6 text-center">
+      <p class="text-accent text-sm font-semibold tracking-[0.3em] uppercase">
+        {priceLabel}
+      </p>
+    </div>
+
+    <dl
+      class="text-muted-foreground grid grid-cols-2 gap-x-5 gap-y-6 px-6 py-8 text-xs sm:grid-cols-3"
+    >
+      {
+        facts.map(fact => {
+          const FactIcon = factIcons[fact.kind]
+
+          return (
+            <div class="flex min-w-0 items-center gap-2">
+              <FactIcon className="shrink-0" size={17} />
+              <dd class="font-medium">{fact.text}</dd>
+            </div>
+          )
+        })
+      }
+    </dl>
+
+    <div class="mt-auto px-5 pb-5">
+      <LinkButton
+        href={href}
+        aria-label={`View details for ${name}`}
+        className="flex w-full items-center justify-center"
+      >
+        View details
+      </LinkButton>
+    </div>
+  </div>
+</article>

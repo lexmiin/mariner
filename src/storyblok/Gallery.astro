@@ -1,0 +1,125 @@
+---
+import GalleryCollection from '@/components/GalleryCollection'
+import { isRichTextEmpty } from '@/lib/rich-text'
+import type { GalleryItem } from '@/types'
+import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+
+type GalleryLayout = 'editorialGrid' | 'mosaic' | 'carousel'
+
+type Blok = {
+  _uid: string
+  heading?: string
+  introduction?: SbRichTextDoc
+  layout?: GalleryLayout
+  items?: GalleryItem[]
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+const headingId = `gallery-${blok._uid}`
+const items = (blok.items ?? []).filter(item => item.image?.filename)
+const interactiveItems = items.map(item => ({
+  ...item,
+  editable: storyblokEditable(item)
+}))
+const layout = blok.layout ?? 'editorialGrid'
+const hasIntroduction = !isRichTextEmpty(blok.introduction)
+const carouselLabel = blok.heading ? `${blok.heading} gallery` : 'Image gallery'
+---
+
+{
+  items.length > 0 && (
+    <section
+      aria-label={!blok.heading ? 'Image gallery' : undefined}
+      aria-labelledby={blok.heading ? headingId : undefined}
+      class="content-block bg-background overflow-hidden"
+      data-block="gallery"
+      {...storyblokEditable(blok)}
+    >
+      <div class="content-container">
+        {(blok.heading || hasIntroduction) && (
+          <header class="content-header">
+            {blok.heading && (
+              <h2
+                class="font-cinzel text-foreground text-3xl leading-tight tracking-[0.045em] uppercase sm:text-4xl"
+                id={headingId}
+              >
+                {blok.heading}
+              </h2>
+            )}
+            {hasIntroduction && (
+              <div
+                class:list={[
+                  'rich-text gallery-introduction text-muted-foreground max-w-2xl',
+                  blok.heading && 'mt-6'
+                ]}
+              >
+                <StoryblokRichText document={blok.introduction!} />
+              </div>
+            )}
+          </header>
+        )}
+
+        <GalleryCollection
+          client:visible
+          items={interactiveItems}
+          label={carouselLabel}
+          layout={layout}
+        />
+      </div>
+    </section>
+  )
+}
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .gallery-introduction {
+    @apply space-y-6;
+  }
+
+  @media (min-width: 48rem) {
+    .gallery-editorial-item:nth-child(4n + 1),
+    .gallery-editorial-item:nth-child(4n) {
+      grid-column: span 7 / span 7;
+    }
+
+    .gallery-editorial-item:nth-child(4n + 2),
+    .gallery-editorial-item:nth-child(4n + 3) {
+      grid-column: span 5 / span 5;
+    }
+
+    .gallery-editorial-item:nth-child(4n + 2) {
+      margin-top: 5rem;
+    }
+
+    .gallery-editorial-item:nth-child(4n + 3) {
+      align-self: end;
+    }
+
+    .gallery-editorial-item:nth-child(4n + 2) > button,
+    .gallery-editorial-item:nth-child(4n + 3) > button {
+      aspect-ratio: 4 / 5;
+    }
+
+    .gallery-mosaic > :nth-child(6n + 1) {
+      grid-column: span 7 / span 7;
+      grid-row: span 2 / span 2;
+    }
+
+    .gallery-mosaic > :nth-child(6n + 2),
+    .gallery-mosaic > :nth-child(6n + 3) {
+      grid-column: span 5 / span 5;
+    }
+
+    .gallery-mosaic > :nth-child(6n + 4),
+    .gallery-mosaic > :nth-child(6n + 5),
+    .gallery-mosaic > :nth-child(6n + 6) {
+      grid-column: span 4 / span 4;
+    }
+  }
+</style>

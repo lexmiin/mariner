@@ -1,0 +1,135 @@
+---
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import type { Asset } from '@/types'
+import type { SbRichTextDoc } from '@storyblok/astro'
+import DetailHero from '@/components/DetailHero.astro'
+
+type DestinationBlok = {
+  _uid: string
+  name: string
+  cover?: Asset
+  heroImage?: Asset
+  bestTime?: string
+  currency?: string
+  languages?: string
+  headline?: string
+  content?: SbRichTextDoc
+  sections?: SbBlokData[]
+}
+
+interface Props {
+  blok: DestinationBlok
+}
+
+const { blok } = Astro.props
+const hero = blok.heroImage ?? blok.cover
+const facts = [
+  { label: 'Best time to go', value: blok.bestTime },
+  { label: 'Currency', value: blok.currency },
+  { label: 'Language', value: blok.languages }
+].filter((fact): fact is { label: string; value: string } =>
+  Boolean(fact.value)
+)
+const headingId = `destination-${blok._uid}`
+const hasContent = Boolean(blok.content?.content?.length)
+---
+
+<article class="editorial-page" {...storyblokEditable(blok)}>
+  <DetailHero
+    breadcrumbs={[
+      { href: '/', label: 'Home' },
+      { href: '/destinations', label: 'Destinations' },
+      { label: blok.name }
+    ]}
+    eyebrow="Destination guide"
+    {headingId}
+    image={hero}
+    title={blok.name}
+  />
+
+  <section
+    class="content-block destination-overview bg-background"
+    data-block="destination-overview"
+    aria-labelledby={headingId}
+  >
+    <div
+      class:list={[
+        'content-container grid gap-10',
+        facts.length > 0 &&
+          'lg:grid-cols-[minmax(15rem,0.78fr)_minmax(0,1.55fr)] lg:gap-14 xl:gap-20'
+      ]}
+    >
+      {
+        facts.length > 0 && (
+          <aside
+            class="destination-essentials bg-accent text-accent-foreground px-7 py-9 sm:px-10 sm:py-11 lg:self-start"
+            aria-label={`${blok.name} essentials`}
+          >
+            <dl class="grid gap-8 lg:gap-10">
+              {facts.map(fact => (
+                <div>
+                  <dt class="text-primary-soft text-sm font-semibold tracking-wide">
+                    {fact.label}
+                  </dt>
+                  <dd class="font-cinzel text-accent-foreground mt-3 tracking-[0.045em] uppercase">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        )
+      }
+
+      <div class="destination-copy max-w-3xl">
+        {
+          blok.headline && (
+            <h2 class="font-cinzel text-foreground text-3xl leading-tight tracking-[0.035em] uppercase sm:text-4xl">
+              {blok.headline}
+            </h2>
+          )
+        }
+        {
+          hasContent && (
+            <div
+              class:list={[
+                'rich-text destination-rich-text',
+                blok.headline && 'mt-6 sm:mt-7'
+              ]}
+            >
+              <StoryblokRichText document={blok.content!} />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  {blok.sections?.map(section => <StoryblokComponent blok={section} />)}
+</article>
+
+<style is:global>
+  @reference '../styles/global.css';
+
+  .destination-rich-text {
+    @apply text-muted-foreground space-y-6 text-base leading-8;
+  }
+
+  .destination-rich-text h3,
+  .destination-rich-text h4 {
+    @apply font-cinzel text-foreground mt-10 text-2xl leading-tight tracking-[0.035em] uppercase;
+  }
+
+  @media (width < 40rem) {
+    .destination-overview {
+      padding-top: 0;
+    }
+
+    .destination-essentials {
+      margin-inline: calc(var(--page-gutter) * -1);
+      padding-inline: var(--page-gutter);
+    }
+  }
+</style>

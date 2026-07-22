@@ -1,0 +1,24 @@
+---
+import ContactForm from '@/components/ContactForm'
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+}
+
+interface Props {
+  blok: Blok
+}
+
+const { blok } = Astro.props
+---
+
+<section
+  class="content-block content-block-compact"
+  data-block="contact-form"
+  {...storyblokEditable(blok)}
+>
+  <div class="content-container">
+    <ContactForm client:load />
+  </div>
+</section>

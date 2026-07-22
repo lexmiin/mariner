@@ -1,0 +1,3 @@
+# Centralize Storyblok reads in the Story Content Catalog
+
+All website reads from Storyblok go through the Story Content Catalog, which returns project-owned Stories through a small interface and owns external query details, relation resolution, pagination, version selection, and stable-envelope validation. The catalog receives a Storyblok adapter in production and an in-memory adapter in tests; rendering, Page chrome, route ownership, and visual projections remain outside the seam. This trades the convenience of direct Storyblok calls for locality, a single test surface, and consistent content across callers; custom caching is deliberately deferred.

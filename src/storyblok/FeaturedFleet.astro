@@ -1,0 +1,32 @@
+---
+import YachtCharterSection from '@/components/YachtCharterSection.astro'
+import type { Story } from '@/lib/story-content'
+import { projectYachtSummary } from '@/lib/yacht-summary'
+import { storyblokEditable } from '@storyblok/astro'
+
+type Blok = {
+  _uid: string
+  description?: string
+  eyebrow?: string
+  fleetHref?: string
+  fleetLabel?: string
+  headingId?: string
+  items?: Story[]
+  title?: string
+}
+
+const { blok } = Astro.props as { blok: Blok }
+const yachts = (blok.items ?? []).map(projectYachtSummary)
+---
+
+<div data-block="featured-fleet" {...storyblokEditable(blok)}>
+  <YachtCharterSection
+    description={blok.description}
+    eyebrow={blok.eyebrow}
+    fleetHref={blok.fleetHref}
+    fleetLabel={blok.fleetLabel}
+    headingId={blok.headingId || `featured-fleet-${blok._uid}`}
+    title={blok.title}
+    yachts={yachts}
+  />
+</div>

@@ -1,0 +1,110 @@
+---
+import YachtCard from '@/components/YachtCard.astro'
+import type { YachtSummary } from '@/lib/yacht-summary'
+
+interface Props {
+  description?: string
+  eyebrow?: string
+  fleetHref?: string
+  fleetLabel?: string
+  headingId?: string
+  title?: string
+  yachts: YachtSummary[]
+}
+
+const {
+  description,
+  eyebrow,
+  fleetHref,
+  fleetLabel,
+  headingId,
+  title,
+  yachts
+} = Astro.props
+
+const hasHeader = Boolean(eyebrow || title || description)
+const hasLabeledHeading = Boolean(title && headingId)
+const hasHeadingCopy = Boolean(eyebrow || title)
+const hasFleetLink = Boolean(fleetHref && fleetLabel)
+---
+
+<section
+  class="content-block bg-secondary"
+  aria-label={hasLabeledHeading ? undefined : 'Featured fleet'}
+  aria-labelledby={hasLabeledHeading ? headingId : undefined}
+>
+  <div class="content-container max-w-6xl">
+    {
+      hasHeader && (
+        <header class="mx-auto max-w-2xl text-center">
+          {eyebrow && (
+            <p class="text-accent text-[0.65rem] font-semibold tracking-[0.32em] uppercase">
+              {eyebrow}
+            </p>
+          )}
+          {title && (
+            <h2
+              id={headingId}
+              class:list={[
+                'font-cinzel text-4xl tracking-[0.06em] sm:text-5xl',
+                eyebrow && 'mt-4'
+              ]}
+            >
+              {title}
+            </h2>
+          )}
+          {description && (
+            <p
+              class:list={[
+                'text-muted-foreground mx-auto max-w-xl text-base leading-8',
+                hasHeadingCopy && 'mt-5'
+              ]}
+            >
+              {description}
+            </p>
+          )}
+        </header>
+      )
+    }
+
+    {
+      yachts.length > 0 ? (
+        <>
+          <ol
+            class:list={[
+              'grid gap-5 md:grid-cols-2 lg:grid-cols-3',
+              hasHeader && 'mt-10 sm:mt-14 lg:mt-16'
+            ]}
+          >
+            {yachts.map((yacht, index) => (
+              <li>
+                <YachtCard summary={yacht} index={index + 1} />
+              </li>
+            ))}
+          </ol>
+
+          {hasFleetLink && (
+            <div class="mt-10 text-center sm:mt-12">
+              <a
+                href={fleetHref}
+                class="hover:text-accent border-foreground text-foreground hover:border-primary focus-visible:outline-ring inline-flex items-center gap-3 border-b pb-1 text-xs font-semibold tracking-[0.18em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4"
+              >
+                {fleetLabel}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          )}
+        </>
+      ) : (
+        <p
+          class:list={[
+            'text-muted-foreground border-border mx-auto max-w-2xl border-y py-10 text-center',
+            hasHeader && 'mt-10 sm:mt-14'
+          ]}
+        >
+          Select yacht stories to populate this block.
+        </p>
+      )
+    }
+  </div>
+</section>

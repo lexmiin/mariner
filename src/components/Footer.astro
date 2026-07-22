@@ -1,13 +1,146 @@
-<footer class="mt-10 pb-8 text-center opacity-40 md:pb-12">
-  <p>
-    &copy; <span id="year"></span> Mariner Worldwide. All Right Reserved.
-  </p>
+---
+import Logo from './Logo.astro'
+import type { SiteSettings } from '@/lib/site-settings'
+
+interface Props {
+  settings: SiteSettings['footer']
+}
+
+const { settings } = Astro.props
+
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61555472023366'
+  },
+  { label: 'Instagram', href: 'https://www.instagram.com/_m_a_r_i_n_e_r_/' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@marinerworldwide' }
+]
+
+const year = new Date().getFullYear()
+---
+
+<footer
+  data-navbar-tone="inverse"
+  class="text-inverse-foreground overflow-hidden bg-gray-950"
+>
+  <div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 xl:px-20">
+    <div class="border-inverse-foreground/15 border-b py-7 sm:py-9">
+      <Logo appearance="inverse" />
+    </div>
+
+    <div class="grid lg:grid-cols-[minmax(15rem,0.75fr)_minmax(0,1.5fr)]">
+      <nav
+        aria-label="Footer navigation"
+        class="border-inverse-foreground/15 py-10 lg:border-r lg:py-16 lg:pr-10"
+      >
+        <p
+          class="text-primary text-[0.65rem] font-semibold tracking-[0.2em] uppercase"
+        >
+          {settings.navigation.label}
+        </p>
+        <ul class="mt-8 space-y-3">
+          {
+            settings.navigation.items.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  target={link.target}
+                  rel={link.target === '_blank' ? 'noreferrer' : undefined}
+                  class="group hover:text-primary focus-visible:text-primary focus-visible:outline-primary inline-flex items-baseline gap-3 text-lg tracking-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+                >
+                  <span class="font-cinzel">{link.label}</span>
+                  <span
+                    aria-hidden="true"
+                    class="text-primary translate-x-0 text-sm opacity-0 transition-[transform,opacity] group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100 motion-reduce:group-hover:translate-x-0 motion-reduce:group-focus-visible:translate-x-0 motion-reduce:transition-opacity"
+                  >
+                    &nearr;
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <section
+        aria-labelledby="footer-contact-heading"
+        class="relative overflow-hidden py-10 lg:py-16 lg:pl-14"
+      >
+        <svg
+          aria-hidden="true"
+          class="text-primary/25 pointer-events-none absolute -right-24 -bottom-20 h-96 w-[36rem] sm:right-0"
+          fill="none"
+          viewBox="0 0 560 370"
+        >
+          <path
+            d="M-4 270C100 250 102 124 208 130s95 135 196 92 91-113 164-116"
+            stroke="currentColor"
+            stroke-width="1"></path>
+          <circle cx="208" cy="130" r="6" fill="currentColor"></circle>
+          <circle cx="404" cy="222" r="6" fill="currentColor"></circle>
+        </svg>
+        <div class="relative max-w-2xl">
+          <p
+            class="text-primary text-[0.65rem] font-semibold tracking-[0.2em] uppercase"
+          >
+            {settings.contact.label}
+          </p>
+          <h2
+            id="footer-contact-heading"
+            class="font-cinzel mt-8 max-w-xl text-2xl leading-[1.12] tracking-[0.035em] sm:text-3xl lg:text-4xl"
+          >
+            {settings.contact.heading}
+          </h2>
+          {
+            settings.contact.link && (
+              <a
+                href={settings.contact.link.href}
+                target={settings.contact.link.target}
+                rel={
+                  settings.contact.link.target === '_blank'
+                    ? 'noreferrer'
+                    : undefined
+                }
+                class="group border-primary hover:text-primary focus-visible:outline-primary mt-8 inline-flex items-center gap-4 border-b pb-1 text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+              >
+                Start a conversation
+                <span
+                  aria-hidden="true"
+                  class="text-primary transition-transform group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0 motion-reduce:transition-none"
+                >
+                  &rarr;
+                </span>
+              </a>
+            )
+          }
+        </div>
+      </section>
+    </div>
+
+    <div
+      class="border-inverse-foreground/15 text-inverse-foreground/55 flex flex-col gap-5 border-t py-6 text-xs tracking-[0.08em] uppercase sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {year} Mariner Worldwide</p>
+      <nav aria-label="Social media">
+        <ul class="flex flex-wrap gap-x-5 gap-y-3">
+          {
+            socialLinks.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="hover:text-primary focus-visible:text-primary focus-visible:outline-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+                >
+                  {link.label}
+                  <span class="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
 </footer>
-
-<script>
-  const yearElement = document.getElementById('year')
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear().toString()
-  }
-</script>
-

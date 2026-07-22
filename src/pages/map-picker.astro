@@ -1,0 +1,9 @@
+---
+import MapCoordinatePicker from '@/components/MapCoordinatePicker'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Map coordinate picker">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <MapCoordinatePicker client:load />
+</BaseLayout>

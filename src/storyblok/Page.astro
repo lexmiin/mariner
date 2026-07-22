@@ -1,14 +1,19 @@
 ---
 import { storyblokEditable } from '@storyblok/astro'
+import type { SbBlokData } from '@storyblok/astro'
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+
+type PageBlok = SbBlokData & {
+  body?: SbBlokData[]
+}
+
+interface Props {
+  blok: PageBlok
+}
 
 const { blok } = Astro.props
 ---
 
-<div {...storyblokEditable(blok)}>
-  {
-    blok.body?.map((blok: any) => {
-      return <StoryblokComponent blok={blok} />
-    })
-  }
+<div class="editorial-page" {...storyblokEditable(blok)}>
+  {blok.body?.map(child => <StoryblokComponent blok={child} />)}
 </div>
