@@ -29,7 +29,6 @@ type YachtBlok = {
   builder?: string
   buildYear?: number
   draft?: string
-  refit?: number
   type?: string
   length?: string
   totalCabins?: number
@@ -64,8 +63,7 @@ const specifications = [
   { label: 'Crew', value: blok.totalCrewMembers },
   { label: 'Guests', value: blok.totalGuests },
   { label: 'Builder', value: blok.builder },
-  { label: 'Build year', value: blok.buildYear },
-  { label: 'Refit', value: blok.refit }
+  { label: 'Build year', value: blok.buildYear }
 ].filter((specification): specification is { label: string; value: string } =>
   Boolean(specification.value)
 )
