@@ -14,7 +14,7 @@ const socialLinks = [
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/_m_a_r_i_n_e_r_/'
+    href: 'https://www.instagram.com/marinerworldwide/'
   },
   {
     label: 'TikTok',
@@ -41,7 +41,7 @@ export default function NavigationOverlay({ items, currentPath }: Props) {
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className="group inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm font-medium tracking-[0.16em] text-current uppercase opacity-80 transition-[opacity,scale] duration-[var(--motion-duration-press)] ease-[var(--motion-ease-out)] hover:opacity-100 active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current">
+      <Dialog.Trigger className="group inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm font-medium tracking-[0.16em] text-current uppercase opacity-80 transition-[opacity,scale] duration-[var(--motion-duration-press)] ease-[var(--motion-ease-out)] hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.97] motion-reduce:active:scale-100">
         <span
           className="relative grid h-5 w-6 place-items-center"
           aria-hidden="true"
@@ -54,9 +54,9 @@ export default function NavigationOverlay({ items, currentPath }: Props) {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Backdrop className="fixed inset-0 z-9998 bg-slate-950/10 opacity-100 backdrop-blur-sm transition-opacity duration-300 ease-[var(--motion-ease-out)] data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 motion-reduce:transition-none" />
+        <Dialog.Backdrop className="fixed inset-0 z-9998 bg-slate-950/10 opacity-100 backdrop-blur-sm transition-opacity duration-300 ease-[var(--motion-ease-out)] data-[ending-style]:opacity-0 data-[starting-style]:opacity-0 motion-reduce:transition-none" />
         <Dialog.Viewport className="fixed inset-0 z-9999 overflow-y-auto">
-          <Dialog.Popup className="flex min-h-full flex-col bg-linear-to-br from-white via-slate-50 to-cyan-50/80 text-slate-900 opacity-100 transition-[opacity,translate] duration-300 ease-[var(--motion-ease-out)] data-[starting-style]:-translate-y-3 data-[starting-style]:opacity-0 data-[ending-style]:-translate-y-3 data-[ending-style]:opacity-0 motion-reduce:transition-none">
+          <Dialog.Popup className="flex min-h-full flex-col bg-linear-to-br from-white via-slate-50 to-cyan-50/80 text-slate-900 opacity-100 transition-[opacity,translate] duration-300 ease-[var(--motion-ease-out)] data-[ending-style]:-translate-y-3 data-[ending-style]:opacity-0 data-[starting-style]:-translate-y-3 data-[starting-style]:opacity-0 motion-reduce:transition-none">
             <Dialog.Title className="sr-only">Site navigation</Dialog.Title>
 
             <div className="grid min-h-20 grid-cols-[1fr_auto_1fr] items-center border-b border-slate-900/10 px-5 sm:px-8 lg:px-12">
