@@ -1,7 +1,7 @@
 ---
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   headline: string
   subheadline: string
   videoUrl: string

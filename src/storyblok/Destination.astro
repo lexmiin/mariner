@@ -6,7 +6,7 @@ import type { Asset } from '@/types'
 import type { SbRichTextDoc } from '@storyblok/astro'
 import DetailHero from '@/components/DetailHero.astro'
 
-type DestinationBlok = {
+type DestinationBlok = SbBlokData & {
   _uid: string
   name: string
   cover?: Asset

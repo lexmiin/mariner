@@ -1,9 +1,13 @@
 ---
 import { isRichTextEmpty } from '@/lib/rich-text'
-import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import {
+  storyblokEditable,
+  type SbBlokData,
+  type SbRichTextDoc
+} from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   _uid: string
   heading: string
   body?: SbRichTextDoc

@@ -2,10 +2,14 @@
 import type { Asset, StoryblokLink } from '@/types'
 import LinkButton from '@/components/LinkButton'
 import { resolveStoryblokLink } from '@/lib/navigation'
-import { storyblokEditable, type SbRichTextDoc } from '@storyblok/astro'
+import {
+  storyblokEditable,
+  type SbBlokData,
+  type SbRichTextDoc
+} from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   _uid: string
   eyebrow?: string
   heading: string

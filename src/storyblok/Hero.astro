@@ -1,9 +1,9 @@
 ---
 import DetailHero from '@/components/DetailHero.astro'
 import type { Asset } from '@/types'
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   _uid: string
   eyebrow?: string
   image?: Asset

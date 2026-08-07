@@ -3,9 +3,9 @@ import TopDestinationsCarousel from '@/components/TopDestinationsCarousel'
 import LinkButton from '@/components/LinkButton'
 import { projectDestinationSummary } from '@/lib/destination-summary'
 import type { Story } from '@/lib/story-content'
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   _uid: string
   ctaLabel: string
   destinations?: Story[]

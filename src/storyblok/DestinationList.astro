@@ -1,9 +1,9 @@
 ---
 import { projectDestinationSummary } from '@/lib/destination-summary'
 import { getStoryCatalog } from '@/lib/story-content'
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   _uid: string
 }
 
@@ -35,7 +35,7 @@ const destinations = stories.map(projectDestinationSummary)
                 <img
                   src={destination.image.src}
                   alt={destination.image.alt}
-                  class="h-full w-full object-cover transition-transform duration-[var(--motion-duration-ui)] ease-[var(--motion-ease-out)] pointer-fine:group-hover:scale-[1.035] motion-reduce:group-hover:scale-100 motion-reduce:transition-none"
+                  class="h-full w-full object-cover transition-transform duration-[var(--motion-duration-ui)] ease-[var(--motion-ease-out)] motion-reduce:transition-none motion-reduce:group-hover:scale-100 pointer-fine:group-hover:scale-[1.035]"
                 />
                 <div class="from-overlay/90 via-overlay/10 absolute inset-0 bg-linear-to-t to-transparent" />
                 <div class="text-inverse-foreground absolute inset-x-0 bottom-0 p-6 sm:p-7 lg:p-8">

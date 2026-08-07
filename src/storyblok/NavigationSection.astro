@@ -1,8 +1,8 @@
 ---
 import type { Asset } from '@/types'
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 
-type Blok = {
+type Blok = SbBlokData & {
   text: string
   image: Asset
 }

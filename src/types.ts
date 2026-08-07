@@ -1,4 +1,4 @@
-import type { SbRichTextDoc } from '@storyblok/astro'
+import type { SbBlokData, SbRichTextDoc } from '@storyblok/astro'
 
 export type Breadcrumb = {
   href?: string
@@ -11,7 +11,7 @@ export type ResolvedBreadcrumbPlacement = Exclude<BreadcrumbPlacement, 'auto'>
 
 export type NavbarTone = 'default' | 'inverse'
 
-export type Item = {
+export type Item = SbBlokData & {
   slug: string
   name: string
   images: Asset[]
@@ -24,7 +24,7 @@ export type Asset = {
   content_type?: string
 }
 
-export type GalleryItem = {
+export type GalleryItem = SbBlokData & {
   _uid: string
   component: 'galleryItem'
   image: Asset
