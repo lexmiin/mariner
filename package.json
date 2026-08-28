@@ -45,5 +45,5 @@
     "vite-plugin-mkcert": "^2.1.0",
     "vitest": "^4.1.10"
   },
-  "packageManager": "pnpm@11.22.0"
+  "packageManager": "pnpm@11.24.0"
 }
