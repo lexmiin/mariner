@@ -43,7 +43,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "vite-plugin-mkcert": "^2.1.0",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
   "packageManager": "pnpm@11.24.0"
 }
