@@ -1,6 +1,6 @@
-import type { SbRichTextDoc } from '@storyblok/astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 
-export function isRichTextEmpty(t?: SbRichTextDoc) {
+export function isRichTextEmpty(t?: StoryblokRichTextDoc) {
   if (!t) return true
 
   if (t.content.length === 1) {

@@ -1,16 +1,13 @@
 ---
 import { isRichTextEmpty } from '@/lib/rich-text'
-import {
-  storyblokEditable,
-  type SbBlokData,
-  type SbRichTextDoc
-} from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 
 type Blok = SbBlokData & {
   _uid: string
   heading: string
-  body?: SbRichTextDoc
+  body?: StoryblokRichTextDoc
 }
 
 interface Props {

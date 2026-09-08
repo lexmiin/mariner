@@ -5,13 +5,10 @@ import AccordionItem from '@/components/AccordionItem.astro'
 import YachtGallery from '@/components/YachtGallery'
 import YachtLayout from '@/components/YachtLayout'
 import type { Asset } from '@/types'
-import {
-  storyblokEditable,
-  type SbBlokData,
-  type SbRichTextDoc
-} from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 import {
   BedDouble,
   MoveHorizontal,
@@ -34,7 +31,7 @@ type YachtBlok = SbBlokData & {
   totalCabins?: number
   totalCrewMembers?: number
   totalGuests?: number
-  description: SbRichTextDoc
+  description: StoryblokRichTextDoc
   gallery?: Asset[]
   layout?: Asset[]
   tendersAndToys?: string

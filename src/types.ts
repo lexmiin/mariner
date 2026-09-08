@@ -1,4 +1,5 @@
-import type { SbBlokData, SbRichTextDoc } from '@storyblok/astro'
+import type { SbBlokData } from '@storyblok/astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 
 export type Breadcrumb = {
   href?: string
@@ -39,7 +40,7 @@ export type Marina = Item & {
 }
 
 export type Navigation = Omit<Item, 'images'> & {
-  text: SbRichTextDoc
+  text: StoryblokRichTextDoc
 }
 
 export type StoryblokLink = {

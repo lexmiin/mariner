@@ -2,19 +2,16 @@
 import GalleryCollection from '@/components/GalleryCollection'
 import { isRichTextEmpty } from '@/lib/rich-text'
 import type { GalleryItem } from '@/types'
-import {
-  storyblokEditable,
-  type SbBlokData,
-  type SbRichTextDoc
-} from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 
 type GalleryLayout = 'editorialGrid' | 'mosaic' | 'carousel'
 
 type Blok = SbBlokData & {
   _uid: string
   heading?: string
-  introduction?: SbRichTextDoc
+  introduction?: StoryblokRichTextDoc
   layout?: GalleryLayout
   items?: GalleryItem[]
 }

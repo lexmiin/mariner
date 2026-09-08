@@ -2,8 +2,8 @@
 import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 import type { Asset } from '@/types'
-import type { SbRichTextDoc } from '@storyblok/astro'
 import DetailHero from '@/components/DetailHero.astro'
 
 type DestinationBlok = SbBlokData & {
@@ -15,7 +15,7 @@ type DestinationBlok = SbBlokData & {
   currency?: string
   languages?: string
   headline?: string
-  content?: SbRichTextDoc
+  content?: StoryblokRichTextDoc
   sections?: SbBlokData[]
 }
 

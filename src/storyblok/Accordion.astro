@@ -2,24 +2,21 @@
 import AccordionPrimitive from '@/components/Accordion.astro'
 import AccordionItem from '@/components/AccordionItem.astro'
 import { isRichTextEmpty } from '@/lib/rich-text'
-import {
-  storyblokEditable,
-  type SbBlokData,
-  type SbRichTextDoc
-} from '@storyblok/astro'
+import { storyblokEditable, type SbBlokData } from '@storyblok/astro'
 import StoryblokRichText from '@storyblok/astro/StoryblokRichText.astro'
+import type { StoryblokRichTextDoc } from '@storyblok/richtext'
 
 type AccordionItemBlok = SbBlokData & {
   _uid: string
   component: 'accordionItem'
   label: string
-  body: SbRichTextDoc
+  body: StoryblokRichTextDoc
 }
 
 type Blok = SbBlokData & {
   _uid: string
   heading?: string
-  introduction?: SbRichTextDoc
+  introduction?: StoryblokRichTextDoc
   items?: AccordionItemBlok[]
   firstItemOpen?: boolean
 }
