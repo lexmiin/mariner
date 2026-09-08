@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro'
+import FooterRoute from './FooterRoute.astro'
 import type { SiteSettings } from '@/lib/site-settings'
 
 interface Props {
@@ -21,6 +22,7 @@ const year = new Date().getFullYear()
 ---
 
 <footer
+  id="footer"
   data-navbar-tone="inverse"
   class="text-inverse-foreground overflow-hidden bg-gray-950"
 >
@@ -67,19 +69,7 @@ const year = new Date().getFullYear()
         aria-labelledby="footer-contact-heading"
         class="relative overflow-hidden py-10 lg:py-16 lg:pl-14"
       >
-        <svg
-          aria-hidden="true"
-          class="text-primary/25 pointer-events-none absolute -right-24 -bottom-20 h-96 w-[36rem] sm:right-0"
-          fill="none"
-          viewBox="0 0 560 370"
-        >
-          <path
-            d="M-4 270C100 250 102 124 208 130s95 135 196 92 91-113 164-116"
-            stroke="currentColor"
-            stroke-width="1"></path>
-          <circle cx="208" cy="130" r="6" fill="currentColor"></circle>
-          <circle cx="404" cy="222" r="6" fill="currentColor"></circle>
-        </svg>
+        <FooterRoute />
         <div class="relative max-w-2xl">
           <p
             class="text-primary text-[0.65rem] font-semibold tracking-[0.2em] uppercase"

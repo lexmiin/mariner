@@ -1,0 +1,81 @@
+---
+const route = 'M-4 270C100 250 102 124 208 130s95 135 196 92 91-113 164-116'
+// Fractions of this route's arc length: keep arrival effects in sync with the light.
+const ports = [
+  { x: 208, y: 130, arrival: 0.375206 },
+  { x: 404, y: 222, arrival: 0.707216 }
+]
+---
+
+<svg
+  id="footer-route"
+  aria-hidden="true"
+  class="text-primary pointer-events-none absolute -right-24 -bottom-20 h-96 w-[36rem] sm:right-0"
+  fill="none"
+  viewBox="0 0 560 370"
+>
+  <path d={route} stroke="currentColor" stroke-opacity=".25"></path>
+  {
+    ports.map(({ x, y }) => (
+      <circle cx={x} cy={y} r="6" fill="currentColor" opacity=".45" />
+    ))
+  }
+  <g class="route-motion">
+    {
+      ports.map(({ x, y, arrival }) => (
+        <g opacity="0">
+          <circle cx={x} cy={y} r="12" fill="currentColor" opacity=".15" />
+          <circle cx={x} cy={y} r="6" fill="currentColor" />
+          <animate
+            attributeName="opacity"
+            values="0;0;1;1;0;0"
+            keyTimes={`0;${arrival - 0.01};${arrival};${arrival + 0.04};${arrival + 0.12};1`}
+            dur="12s"
+            repeatCount="indefinite"
+          />
+        </g>
+      ))
+    }
+    <g opacity="0">
+      <circle r="13" fill="currentColor" opacity=".12"></circle>
+      <circle r="4" fill="currentColor"></circle>
+      <circle r="1.5" fill="white" opacity=".85"></circle>
+      <animateMotion path={route} dur="12s" repeatCount="indefinite"
+      ></animateMotion>
+      <animate
+        attributeName="opacity"
+        values="0;1;1;0"
+        keyTimes="0;.08;.92;1"
+        dur="12s"
+        repeatCount="indefinite"></animate>
+    </g>
+    {
+      ports.map(({ x, y, arrival }) => (
+        <circle cx={x} cy={y} r="6" stroke="currentColor" opacity="0">
+          <animate
+            attributeName="r"
+            values="6;6;30;30"
+            keyTimes={`0;${arrival};${arrival + 0.2};1`}
+            dur="12s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0;0;.7;0;0"
+            keyTimes={`0;${arrival - 0.01};${arrival};${arrival + 0.2};1`}
+            dur="12s"
+            repeatCount="indefinite"
+          />
+        </circle>
+      ))
+    }
+  </g>
+</svg>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .route-motion {
+      display: none;
+    }
+  }
+</style>
