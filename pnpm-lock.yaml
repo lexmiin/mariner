@@ -32,7 +32,7 @@ importers:
         version: 10.3.2(@floating-ui/dom@1.8.0)(astro@7.3.5(@types/node@26.6.3)(jiti@2.7.0)(yaml@2.9.1))
       '@storyblok/richtext':
         specifier: ^5.3.0
-        version: 5.3.2(@floating-ui/dom@1.8.0)
+        version: 5.3.3(@floating-ui/dom@1.8.0)
       '@tailwindcss/vite':
         specifier: ^4.3.2
         version: 4.3.3(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
@@ -1032,8 +1032,8 @@ packages:
   '@storyblok/preview-bridge@2.3.1':
     resolution: {integrity: sha512-D9djbpn4sLZlS5m1H96TJZK7AKjoz1CvMs/qdMlehRV/EnUGzVd6fR2mpd9/I+aXgK9YVdOiZvSKDJkaiXrCwQ==}
 
-  '@storyblok/richtext@5.3.2':
-    resolution: {integrity: sha512-ybh0RezBQnQXXhUtPDfuXFR/nZv4slXtZZm6OL7L3OhiH0HHxrTPXw9BR2E/Y5Arj8Usiq7KjrEe6lc6nba5uQ==}
+  '@storyblok/richtext@5.3.3':
+    resolution: {integrity: sha512-p33JAwLxarQDibrSNtQGhs9Goo1IFiNRMwcxphtZlSXnJiiTRrKfrFy7Pj9WIqO/FVmdsJXyYBDK1thLU1Yzdw==}
 
   '@stripe/react-stripe-js@3.11.0':
     resolution: {integrity: sha512-5L2Qsg68ELyDGdiQb6mnT4fgyl6V6GN4nJzGdKmVJ3CfbQFv1H157/LJTjJVyQGLN2bZ20cFYFMn2YwZ2TJElw==}
@@ -4031,7 +4031,7 @@ snapshots:
   '@storyblok/astro@10.3.2(@floating-ui/dom@1.8.0)(astro@7.3.5(@types/node@26.6.3)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       '@storyblok/js': 6.3.3(@floating-ui/dom@1.8.0)
-      '@storyblok/richtext': 5.3.2(@floating-ui/dom@1.8.0)
+      '@storyblok/richtext': 5.3.3(@floating-ui/dom@1.8.0)
       astro: 7.3.5(@types/node@26.6.3)(jiti@2.7.0)(yaml@2.9.1)
       camelcase: 8.0.0
       morphdom: 2.7.8
@@ -4043,7 +4043,7 @@ snapshots:
   '@storyblok/js@6.3.3(@floating-ui/dom@1.8.0)':
     dependencies:
       '@storyblok/preview-bridge': 2.3.1
-      '@storyblok/richtext': 5.3.2(@floating-ui/dom@1.8.0)
+      '@storyblok/richtext': 5.3.3(@floating-ui/dom@1.8.0)
       storyblok-js-client: 7.7.6
     transitivePeerDependencies:
       - '@floating-ui/dom'
@@ -4054,7 +4054,7 @@ snapshots:
     dependencies:
       pure-parse: 0.0.0-beta.8
 
-  '@storyblok/richtext@5.3.2(@floating-ui/dom@1.8.0)':
+  '@storyblok/richtext@5.3.3(@floating-ui/dom@1.8.0)':
     dependencies:
       '@tiptap/core': 3.31.3(@tiptap/pm@3.31.3)
       '@tiptap/extension-blockquote': 3.31.3(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3)
