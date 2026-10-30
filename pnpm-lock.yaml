@@ -29,7 +29,7 @@ importers:
         version: 3.0.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@storyblok/astro':
         specifier: ^10.0.1
-        version: 10.3.2(@floating-ui/dom@1.8.0)(astro@7.4.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))
+        version: 10.4.0(@floating-ui/dom@1.8.0)(astro@7.4.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))
       '@storyblok/richtext':
         specifier: ^5.3.0
         version: 5.3.3(@floating-ui/dom@1.8.0)
@@ -874,13 +874,13 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@storyblok/astro@10.3.2':
-    resolution: {integrity: sha512-Uus38tvnQl43CRkPhFW1a1p6zu1HaW6lF92aEeRG8G7akLZmJ5dz27pO0Cgbbe1zj/IlogkXPK9500U4mv+9mw==}
+  '@storyblok/astro@10.4.0':
+    resolution: {integrity: sha512-aGCLCvNFD/FzVc++92ZarUhjSM0fxOqj+GrAyZOINFFJ4M6Pp6ZczQ/dL6f+GOAQH9GxMKU+lMB54uRG0vAQOg==}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  '@storyblok/js@6.3.4':
-    resolution: {integrity: sha512-H5ZGryFm6yh9iLc0HpYYc1U4XgR9hiSD739qiSbdoYRrSrRnOxnSOc8IQu9eAQJwCrFzjrImYp3cpBKEuSp5dA==}
+  '@storyblok/js@6.4.0':
+    resolution: {integrity: sha512-Qt2xmZ1fmXbKhOm+qTN5R8JFADW6BdJzE2jUCR30sgvl3+OATij+BFAj9F3QkqGP/OwZktaSUpSnswfc1xy9ww==}
 
   '@storyblok/preview-bridge@2.6.0':
     resolution: {integrity: sha512-KcLKPHSeFxqy+vYLPoflCfvl7L+/d298CpbGg54Yefqb7DLLnjXzjbJiIqYzvKC08rfM6ozy6DGFvRhrwAUI/Q==}
@@ -3830,9 +3830,9 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@storyblok/astro@10.3.2(@floating-ui/dom@1.8.0)(astro@7.4.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))':
+  '@storyblok/astro@10.4.0(@floating-ui/dom@1.8.0)(astro@7.4.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
-      '@storyblok/js': 6.3.4(@floating-ui/dom@1.8.0)
+      '@storyblok/js': 6.4.0(@floating-ui/dom@1.8.0)
       '@storyblok/richtext': 5.3.3(@floating-ui/dom@1.8.0)
       astro: 7.4.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1)
       camelcase: 8.0.0
@@ -3842,7 +3842,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@storyblok/js@6.3.4(@floating-ui/dom@1.8.0)':
+  '@storyblok/js@6.4.0(@floating-ui/dom@1.8.0)':
     dependencies:
       '@storyblok/preview-bridge': 2.6.0
       '@storyblok/richtext': 5.3.3(@floating-ui/dom@1.8.0)
