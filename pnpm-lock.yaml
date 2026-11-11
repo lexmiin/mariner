@@ -28,8 +28,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@storyblok/astro':
-        specifier: ^10.0.1
-        version: 10.4.0(astro@7.4.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: ^11.0.0
+        version: 11.0.0(astro@7.4.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
       '@storyblok/richtext':
         specifier: ^5.3.0
         version: 5.5.2
@@ -874,13 +874,13 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@storyblok/astro@10.4.0':
-    resolution: {integrity: sha512-aGCLCvNFD/FzVc++92ZarUhjSM0fxOqj+GrAyZOINFFJ4M6Pp6ZczQ/dL6f+GOAQH9GxMKU+lMB54uRG0vAQOg==}
+  '@storyblok/astro@11.0.0':
+    resolution: {integrity: sha512-/+07l7bCw4Z8mASo+gvkp+YlB6ge1VeP8JGPOi8efF7+YO8dUMJ6rB8t4Y65/J+T8nB8nnGpSE0Zmn68nC8qDA==}
     peerDependencies:
-      astro: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+      astro: ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  '@storyblok/js@6.4.1':
-    resolution: {integrity: sha512-kqUkACPKmXooVkhJA4HNRA0jcn9Hw4vlF6b3XCqIjtd9IyuCZACtGQndCBLvmfd4xtTxQ5iJWNpupkvtqDJQNQ==}
+  '@storyblok/live-preview@0.10.0':
+    resolution: {integrity: sha512-pm6unhfKRyK9RtJW9HnXNLCCu8we+X2h3ZkPlV7uPlr9oeoy2GC7cWLmlZfrOba+PX0kbXdE/sUmHuvRASk8iw==}
 
   '@storyblok/preview-bridge@2.6.1':
     resolution: {integrity: sha512-FAZ1cKm4Glfhk7+wDrfXzY426uX4ezY8Xw3ViSK7sqSxTZ2hs3gpCfFjkA4TWjbHAdYpLHehRldWWBvCG7xN/A==}
@@ -1426,10 +1426,6 @@ packages:
 
   cacheable@2.5.0:
     resolution: {integrity: sha512-60cyAOytib/OzBw1JNSoSV/boK1AtHryDIjvVBk7XbN4ugfkM3+Sry7fEjNgPMGgOjuaZPAp8ruZ0Cxafwyq9g==}
-
-  camelcase@8.0.0:
-    resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
-    engines: {node: '>=16'}
 
   caniuse-lite@1.0.30001820:
     resolution: {integrity: sha512-gfWD6MxqVCqAOwmODfZf7DchWvlrA+SRdNX7ceLfg3xRqe5ssjjpF7EgslC/0tiLiNTajdaNN/q8c/5u/7Gz8w==}
@@ -2548,9 +2544,6 @@ packages:
 
   std-env@4.3.0:
     resolution: {integrity: sha512-OtU/EgQ1kIm5KwqQpBC6ZEMXrZRui11w8zgfTWp8cdO9B8OaPsbA8bTHO2P+HNo1VlUTGMVBwPhydu6poeXiag==}
-
-  storyblok-js-client@7.8.1:
-    resolution: {integrity: sha512-CNBjMn1Ize3kLxcVhF0oJXHc8s5r/HWvsnXFSK+fjt3STAlrsK4UbZ3lZ621H3prUBJcdEdrR3lI6tUEnKob+A==}
 
   string-width@7.2.0:
     resolution: {integrity: sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ==}
@@ -3818,25 +3811,19 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@storyblok/astro@10.4.0(astro@7.4.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))':
+  '@storyblok/astro@11.0.0(astro@7.4.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
-      '@storyblok/js': 6.4.1
+      '@storyblok/live-preview': 0.10.0
       '@storyblok/richtext': 5.5.2
       astro: 7.4.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1)
-      camelcase: 8.0.0
-      morphdom: 2.7.8
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@storyblok/js@6.4.1':
+  '@storyblok/live-preview@0.10.0':
     dependencies:
       '@storyblok/preview-bridge': 2.6.1
-      '@storyblok/richtext': 5.5.2
-      storyblok-js-client: 7.8.1
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
+      morphdom: 2.7.8
 
   '@storyblok/preview-bridge@2.6.1':
     dependencies:
@@ -4522,8 +4509,6 @@ snapshots:
       hookified: 1.15.1
       keyv: 5.6.0
       qified: 0.10.1
-
-  camelcase@8.0.0: {}
 
   caniuse-lite@1.0.30001820: {}
 
@@ -5550,8 +5535,6 @@ snapshots:
   stackback@0.0.2: {}
 
   std-env@4.3.0: {}
-
-  storyblok-js-client@7.8.1: {}
 
   string-width@7.2.0:
     dependencies:
