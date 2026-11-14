@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/check": "0.9.12",
     "@astrojs/react": "6.0.6",
-    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/sitemap": "3.7.5",
     "@base-ui/react": "^1.6.0",
     "@formspree/react": "^3.0.0",
     "@storyblok/astro": "^10.0.1",
